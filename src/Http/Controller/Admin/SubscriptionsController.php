@@ -86,7 +86,7 @@ class SubscriptionsController extends AdminController
      *
      * @param NotificationFormBuilder $form
      * @param SubscriptionFormBuilder $subscription
-     * @param ExtensionCollection     $extensions
+     * @param ExtensionCollection $extensions
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function create(
@@ -140,21 +140,22 @@ class SubscriptionsController extends AdminController
      * Edit an existing entry.
      *
      * @param SubscriptionFormBuilder $form
-     * @param                         $id
+     * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function edit(
         NotificationFormBuilder $form,
         SubscriptionFormBuilder $subscription,
-        SubscriptionRepositoryInterface $subscriptions
+        SubscriptionRepositoryInterface $subscriptions,
+        $id
     ) {
         $channel      = app(ConfigurationFormBuilder::class);
         $notification = app(ConfigurationFormBuilder::class);
 
-        $subscription->setEntry($this->route->getParameter('id'));
+        $subscription->setEntry($id);
 
         /* @var SubscriptionInterface $entry */
-        $entry = $subscriptions->find($this->route->getParameter('id'));
+        $entry = $subscriptions->find($id);
 
         $channel
             ->setEntry($entry->getChannel()->getNamespace())
